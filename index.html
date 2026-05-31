@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello I'm I | presentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@200;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="preloader">
+        <div id="loader-text">A</div>
+        <div class="loader-status" id="loaderStatus">
+            Loading <span id="loader-percentage">0%</span>
+        </div>
+    </div>
+
+    <div class="custom-cursor" id="cursor"></div>
+    <canvas id="experienceCanvas"></canvas>
+
+    <div class="settings-container" id="settingsContainer">
+        <div class="settings-toggle clickable" id="settingsToggle">⚙ Paramètres</div>
+        <div class="settings-menu">
+            <div class="perf-monitor">● SYS OK | <span id="fpsCounter">60</span> FPS</div>
+            <div class="setting-item">
+                <label for="toggleTheme">Thème Blanc</label>
+                <input type="checkbox" id="toggleTheme" class="clickable">
+            </div>
+            <div class="setting-item">
+                <label for="toggleBlur">Effet de flou</label>
+                <input type="checkbox" id="toggleBlur" checked class="clickable">
+            </div>
+            <div class="setting-item">
+                <label for="toggleCanvas">Fond particules</label>
+                <input type="checkbox" id="toggleCanvas" checked class="clickable">
+            </div>
+            <div class="setting-item">
+                <label for="toggleAnim">Animations</label>
+                <input type="checkbox" id="toggleAnim" checked class="clickable">
+            </div>
+        </div>
+    </div>
+
+    <div class="details-panel" id="detailsPanel">
+        <div class="close-panel-btn clickable">← Fermer</div>
+        <h4 id="panelTitle">Titre du parcours</h4>
+        <div class="panel-date" id="panelDate">2026 - Avenir</div>
+        <p id="panelText">Ici s'affichera la description complète de ton parcours, de tes compétences ou de tes objectifs à venir.</p>
+    </div>
+
+    <div class="nav-dots">
+        <div class="dot-wrap magnetic-target"><div class="dot active"></div></div>
+        <div class="dot-wrap magnetic-target"><div class="dot"></div></div>
+        <div class="dot-wrap magnetic-target"><div class="dot"></div></div>
+    </div>
+
+    <div class="page-container" id="mainContainer">
+        
+        <section id="hero">
+            <p class="subtitle page1-anim">Hello I'm Ilhan.</p>
+            <h1 id="hero-title">Moi et la Techno.</h1>
+            <p class="description page1-anim">Aujourd'hui, j'oriente cette curiosité vers la cybersécurité pour apprendre à protéger les systèmes et relever des défis techniques.</p>
+        </section>
+
+        <section id="projects">
+            <p class="subtitle page2-anim">Mon Histoire</p>
+            <h2 id="projects-title">Mon Parcours</h2>
+            <div class="project-list">
+                <div class="project-item page2-anim clickable" data-title="01. connaissance" data-text="Bases solides en développement, exploration créative du code et passion pour le fonctionnement interne des systèmes.">
+                    <h3>01. Mes connaissance</h3>
+                    <span class="more-details-btn">+ de détails</span>
+                </div>
+                <div class="project-item page2-anim clickable" data-title="02. Projets Majeurs" data-text="J'apprends en faisant. Que ce soit en créant une console portable, en testant des protocoles sans fil ou en concevant ce site, chaque projet me permet de comprendre concrètement comment les systèmes fonctionnent.">
+                    <h3>02. Expériences</h3>
+                    <span class="more-details-btn">+ de détails</span>
+                </div>
+                <div class="project-item page2-anim clickable" data-title="03. Objectifs & Avenir" data-text="actuellement en 1sti2d, mon objectif est de poursuivre un Bac+3 spécialisé pour consolider mes bases techniques. Par la suite, je vise une spécialisation au sein des unités de cyberdéfense pour acquérir une expérience opérationnelle de haut niveau. Mon ambition est de maîtriser les enjeux de sécurité critique, que ce soit pour servir dans les forces ou pour protéger les infrastructures du secteur privé.">
+                    <h3>03. Vision d'Avenir</h3>
+                    <span class="more-details-btn">+ de détails</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <p class="subtitle page3-anim">Réseau</p>
+            <h2 id="contact-title">Me contacter.</h2>
+            <p class="description page3-anim">Une idée, un projet ou simplement envie d'échanger ? Mes réseaux sont ouverts.</p>
+            <div class="contact-links page3-anim">
+                <div class="magnetic-wrap">
+                <div><a href="mailto:axocapi@gmail.com" id="email-link" class="clickable magnetic-target text-magnet">Email</a></div>
+                <div class="magnetic-wrap">
+                <a id="discord-link" class="clickable magnetic-target text-magnet">Discord</a></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
