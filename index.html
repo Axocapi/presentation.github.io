@@ -26,26 +26,30 @@
         <div class="settings-menu">
             <div class="perf-monitor">● SYS OK | <span id="fpsCounter">60</span> FPS</div>
             <div class="setting-item">
-                <label for="toggleTheme">Thème Blanc</label>
+                <label for="toggleTheme" id="labelTheme">Thème Blanc</label>
                 <input type="checkbox" id="toggleTheme" class="clickable">
             </div>
             <div class="setting-item">
-                <label for="toggleBlur">Effet de flou</label>
+                <label for="toggleBlur" id="labelBlur">Effet de flou</label>
                 <input type="checkbox" id="toggleBlur" checked class="clickable">
             </div>
             <div class="setting-item">
-                <label for="toggleCanvas">Fond particules</label>
+                <label for="toggleCanvas" id="labelCanvas">Fond particules</label>
                 <input type="checkbox" id="toggleCanvas" checked class="clickable">
             </div>
             <div class="setting-item">
-                <label for="toggleAnim">Animations</label>
+                <label for="toggleAnim" id="labelAnim">Animations</label>
                 <input type="checkbox" id="toggleAnim" checked class="clickable">
+            </div>
+            <div class="setting-item">
+                <label for="toggleLang" id="labelLang">English version</label>
+                <input type="checkbox" id="toggleLang" class="clickable">
             </div>
         </div>
     </div>
 
     <div class="details-panel" id="detailsPanel">
-        <div class="close-panel-btn clickable">← Fermer</div>
+        <div class="close-panel-btn clickable" id="panelClose">← Fermer</div>
         <h4 id="panelTitle">Titre du parcours</h4>
         <div class="panel-date" id="panelDate">2026 - Avenir</div>
         <p id="panelText">Ici s'affichera la description complète de ton parcours, de tes compétences ou de tes objectifs à venir.</p>
@@ -60,39 +64,41 @@
     <div class="page-container" id="mainContainer">
         
         <section id="hero">
-            <p class="subtitle page1-anim">Hello I'm Ilhan.</p>
+            <p class="subtitle page1-anim" id="hero-subtitle">Hello I'm Ilhan.</p>
             <h1 id="hero-title">Moi et la Techno.</h1>
-            <p class="description page1-anim">Aujourd'hui, j'oriente cette curiosité vers la cybersécurité pour apprendre à protéger les systèmes et relever des défis techniques.</p>
+            <p class="description page1-anim" id="hero-desc">Aujourd'hui, j'oriente cette curiosité vers la cybersécurité pour apprendre à protéger les systèmes et relever des défis techniques.</p>
         </section>
 
         <section id="projects">
-            <p class="subtitle page2-anim">Mon Histoire</p>
+            <p class="subtitle page2-anim" id="projects-subtitle">Mon Histoire</p>
             <h2 id="projects-title">Mon Parcours</h2>
             <div class="project-list">
-                <div class="project-item page2-anim clickable" data-title="01. connaissance" data-text="Bases solides en développement, exploration créative du code et passion pour le fonctionnement interne des systèmes.">
-                    <h3>01. Mes connaissance</h3>
+                <div class="project-item page2-anim clickable" id="proj-1" data-title="01. connaissance" data-date="Bases" data-text="Bases solides en développement, exploration créative du code et passion pour le fonctionnement interne des systèmes.">
+                    <h3 id="proj-1-h3">01. Mes connaissances</h3>
                     <span class="more-details-btn">+ de détails</span>
                 </div>
-                <div class="project-item page2-anim clickable" data-title="02. Projets Majeurs" data-text="J'apprends en faisant. Que ce soit en créant une console portable, en testant des protocoles sans fil ou en concevant ce site, chaque projet me permet de comprendre concrètement comment les systèmes fonctionnent.">
-                    <h3>02. Expériences</h3>
+                <div class="project-item page2-anim clickable" id="proj-2" data-title="02. Projets Majeurs" data-date="Pratique" data-text="J'apprends en faisant. Que ce soit en créant une console portable, en testant des protocoles sans fil ou en concevant ce site, chaque projet me permet de comprendre concrètement comment les systèmes fonctionnent.">
+                    <h3 id="proj-2-h3">02. Expériences</h3>
                     <span class="more-details-btn">+ de détails</span>
                 </div>
-                <div class="project-item page2-anim clickable" data-title="03. Objectifs & Avenir" data-text="actuellement en 1sti2d, mon objectif est de poursuivre un Bac+3 spécialisé pour consolider mes bases techniques. Par la suite, je vise une spécialisation au sein des unités de cyberdéfense pour acquérir une expérience opérationnelle de haut niveau. Mon ambition est de maîtriser les enjeux de sécurité critique, que ce soit pour servir dans les forces ou pour protéger les infrastructures du secteur privé.">
-                    <h3>03. Vision d'Avenir</h3>
+                <div class="project-item page2-anim clickable" id="proj-3" data-title="03. Objectifs & Avenir" data-date="2026 - Avenir" data-text="actuellement en 1sti2d, mon objectif est de poursuivre un Bac+3 spécialisé pour consolider mes bases techniques. Par la suite, je vise une spécialisation au sein des unités de cyberdéfense pour acquérir une expérience opérationnelle de haut niveau. Mon ambition est de maîtriser les enjeux de sécurité critique, que ce soit pour servir dans les forces ou pour protéger les infrastructures du secteur privé.">
+                    <h3 id="proj-3-h3">03. Vision d'Avenir</h3>
                     <span class="more-details-btn">+ de détails</span>
                 </div>
             </div>
         </section>
 
         <section id="contact">
-            <p class="subtitle page3-anim">Réseau</p>
+            <p class="subtitle page3-anim" id="contact-subtitle">Réseau</p>
             <h2 id="contact-title">Me contacter.</h2>
-            <p class="description page3-anim">Une idée, un projet ou simplement envie d'échanger ? Mes réseaux sont ouverts.</p>
+            <p class="description page3-anim" id="contact-desc">Une idée, un projet ou simplement envie d'échanger ? Mes réseaux sont ouverts.</p>
             <div class="contact-links page3-anim">
                 <div class="magnetic-wrap">
-                <div><a href="mailto:axocapi@gmail.com" id="email-link" class="clickable magnetic-target text-magnet">Email</a></div>
+                    <a href="mailto:axocapi@gmail.com" id="email-link" class="clickable magnetic-target text-magnet">Email</a>
+                </div>
                 <div class="magnetic-wrap">
-                <a id="discord-link" class="clickable magnetic-target text-magnet">Discord</a></div>
+                    <a id="discord-link" class="clickable magnetic-target text-magnet">Discord</a>
+                </div>
             </div>
         </section>
     </div>
