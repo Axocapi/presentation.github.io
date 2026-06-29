@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     window.addEventListener('click', initAudio, { once: true });
+    window.addEventListener('touchstart', initAudio, { once: true });
 
     function playTicSound() {
         if (!audioInitialized || !audioCtx || !isAnimEnabled) return;
@@ -126,6 +127,132 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    
+    const translations = {
+        fr: {
+            heroSubtitle: "Hello I'm Ilhan.",
+            heroTitle: "Moi et la Techno.",
+            heroDesc: "Aujourd'hui, j'oriente cette curiosité vers la cybersécurité pour apprendre à protéger les systèmes et relever des défis techniques.",
+            projectsSubtitle: "Mon Histoire",
+            projectsTitle: "Mon Parcours",
+            proj1Title: "01. connaissances",
+            proj1H3: "01. Mes connaissances",
+            proj1Text: "Bases solides en développement, exploration créative du code et passion pour le fonctionnement interne des systèmes.",
+            proj2Title: "02. Projets Majeurs",
+            proj2H3: "02. Expériences",
+            proj2Text: "J'apprends en faisant. Que ce soit en créant une console portable, en testant des protocoles sans fil ou en concevant ce site, chaque projet me permet de comprendre concrètement comment les systèmes fonctionnent.",
+            proj3Title: "03. Objectifs & Avenir",
+            proj3H3: "03. Vision d'Avenir",
+            proj3Text: "actuellement en 1sti2d, mon objectif est de poursuivre un Bac+3 spécialisé pour consolider mes bases techniques. Par la suite, je vise une spécialisation au sein des unités de cyberdéfense pour acquérir une expérience opérationnelle de haut niveau. Mon ambition est de maîtriser les enjeux de sécurité critique, que ce soit pour servir dans les forces ou pour protéger les infrastructures du secteur privé.",
+            contactSubtitle: "Réseau",
+            contactTitle: "Me contacter.",
+            contactDesc: "Une idée, un projet ou simplement envie d'échanger ? Mes réseaux sont ouverts.",
+            settingsToggle: "⚙ Paramètres",
+            labelTheme: "Thème Blanc",
+            labelBlur: "Effet de flou",
+            labelCanvas: "Fond particules",
+            labelAnim: "Animations",
+            labelLang: "English version",
+            panelClose: "← Fermer",
+            panelDefaultTitle: "Titre du parcours",
+            panelDefaultDate: "2026 - Avenir",
+            panelDefaultText: "Ici s'affichera la description complète de ton parcours, de tes compétences ou de tes objectifs à venir."
+        },
+        en: {
+            heroSubtitle: "Hello I'm Ilhan.",
+            heroTitle: "Me and Tech.",
+            heroDesc: "Today, I direct this curiosity toward cybersecurity to learn how to protect systems and tackle technical challenges.",
+            projectsSubtitle: "My Story",
+            projectsTitle: "My Journey",
+            proj1Title: "01. Knowledge",
+            proj1H3: "01. My knowledge",
+            proj1Text: "Solid foundations in development, creative exploration of code, and a passion for the inner workings of systems.",
+            proj2Title: "02. Major Projects",
+            proj2H3: "02. Experiences",
+            proj2Text: "I learn by doing. Whether creating a handheld console, testing wireless protocols, or designing this website, each project helps me understand concretely how systems work.",
+            proj3Title: "03. Goals & Future",
+            proj3H3: "03. Future Vision",
+            proj3Text: "Currently in 1STI2D, my goal is to pursue a specialized Bachelor's degree to consolidate my technical foundations. Afterwards, I aim to specialize within cyberdefense units to acquire high-level operational experience. My ambition is to master critical security challenges, whether serving in the forces or protecting private sector infrastructures.",
+            contactSubtitle: "Network",
+            contactTitle: "Contact me.",
+            contactDesc: "An idea, a project, or just want to chat? My channels are open.",
+            settingsToggle: "⚙ Settings",
+            labelTheme: "Light Theme",
+            labelBlur: "Blur Effect",
+            labelCanvas: "Particles Bg",
+            labelAnim: "Animations",
+            labelLang: "English version",
+            panelClose: "← Close",
+            panelDefaultTitle: "Journey Title",
+            panelDefaultDate: "2026 - Future",
+            panelDefaultText: "Your complete journey description, skills, or upcoming goals will be displayed here."
+        }
+    };
+
+    document.getElementById('toggleLang').addEventListener('change', (e) => {
+        const lang = e.target.checked ? 'en' : 'fr';
+        
+      
+        document.getElementById('hero-subtitle').innerText = translations[lang].heroSubtitle;
+        document.getElementById('hero-desc').innerText = translations[lang].heroDesc;
+        document.getElementById('projects-subtitle').innerText = translations[lang].projectsSubtitle;
+        document.getElementById('contact-subtitle').innerText = translations[lang].contactSubtitle;
+        document.getElementById('contact-desc').innerText = translations[lang].contactDesc;
+        document.getElementById('settingsToggle').innerText = translations[lang].settingsToggle;
+        document.getElementById('labelTheme').innerText = translations[lang].labelTheme;
+        document.getElementById('labelBlur').innerText = translations[lang].labelBlur;
+        document.getElementById('labelCanvas').innerText = translations[lang].labelCanvas;
+        document.getElementById('labelAnim').innerText = translations[lang].labelAnim;
+        document.getElementById('labelLang').innerText = translations[lang].labelLang;
+        document.getElementById('panelClose').innerText = translations[lang].panelClose;
+
+        
+        const p1 = document.getElementById('proj-1');
+        p1.setAttribute('data-title', translations[lang].proj1Title);
+        p1.setAttribute('data-text', translations[lang].proj1Text);
+        p1.setAttribute('data-date', lang === 'fr' ? 'Bases' : 'Foundations');
+        document.getElementById('proj-1-h3').innerText = translations[lang].proj1H3;
+
+        const p2 = document.getElementById('proj-2');
+        p2.setAttribute('data-title', translations[lang].proj2Title);
+        p2.setAttribute('data-text', translations[lang].proj2Text);
+        p2.setAttribute('data-date', lang === 'fr' ? 'Pratique' : 'Hands-on');
+        document.getElementById('proj-2-h3').innerText = translations[lang].proj2H3;
+
+        const p3 = document.getElementById('proj-3');
+        p3.setAttribute('data-title', translations[lang].proj3Title);
+        p3.setAttribute('data-text', translations[lang].proj3Text);
+        p3.setAttribute('data-date', lang === 'fr' ? '2026 - Avenir' : '2026 - Future');
+        document.getElementById('proj-3-h3').innerText = translations[lang].proj3H3;
+
+       
+        if(panel.classList.contains('open') && activeProjectItem) {
+            document.getElementById('panelTitle').innerText = activeProjectItem.getAttribute('data-title');
+            document.getElementById('panelDate').innerText = activeProjectItem.getAttribute('data-date');
+            document.getElementById('panelText').innerText = activeProjectItem.getAttribute('data-text');
+        } else if(!panel.classList.contains('open')) {
+            document.getElementById('panelTitle').innerText = translations[lang].panelDefaultTitle;
+            document.getElementById('panelDate').innerText = translations[lang].panelDefaultDate;
+            document.getElementById('panelText').innerText = translations[lang].panelDefaultText;
+        }
+
+        
+        const heroTitle = document.getElementById('hero-title');
+        heroTitle.innerText = translations[lang].heroTitle;
+        setupSplitText('hero-title');
+
+        const projectsTitle = document.getElementById('projects-title');
+        projectsTitle.innerText = translations[lang].projectsTitle;
+        setupSplitText('projects-title');
+
+        const contactTitle = document.getElementById('contact-title');
+        contactTitle.innerText = translations[lang].contactTitle;
+        setupSplitText('contact-title');
+
+       
+        gsap.set(".char", { opacity: 1, y: 0 });
+    });
+
     function setupSplitText(id) {
         const element = document.getElementById(id); 
         if (!element) return;
@@ -181,6 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+   
     window.addEventListener('wheel', (e) => {
         scrollVelocity += e.deltaY * 0.12;
         if (isAnimating || document.getElementById('preloader')) return; 
@@ -194,6 +322,35 @@ document.addEventListener("DOMContentLoaded", () => {
             animatePage(currentSection); 
         }
     });
+
+    
+    let touchStartY = 0;
+    let touchEndY = 0;
+
+    window.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+        touchEndY = e.changedTouches[0].clientY;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        if (isAnimating || document.getElementById('preloader')) return;
+        const swipeDistance = touchStartY - touchEndY;
+        const threshold = 45; // Sensibilité du glissement de doigt en pixels
+
+        if (swipeDistance > threshold && currentSection < totalSections - 1) {
+            document.getElementById('detailsPanel').classList.remove('open');
+            currentSection++;
+            animatePage(currentSection);
+        } else if (swipeDistance < -threshold && currentSection > 0) {
+            document.getElementById('detailsPanel').classList.remove('open');
+            currentSection--;
+            animatePage(currentSection);
+        }
+    }
 
     const cursor = document.getElementById('cursor');
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2; 
@@ -235,8 +392,10 @@ document.addEventListener("DOMContentLoaded", () => {
         item.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
     });
 
+    let activeProjectItem = null;
     document.querySelectorAll('.project-item').forEach(item => {
         item.addEventListener('click', () => {
+            activeProjectItem = item;
             document.getElementById('panelTitle').innerText = item.getAttribute('data-title');
             document.getElementById('panelDate').innerText = item.getAttribute('data-date');
             document.getElementById('panelText').innerText = item.getAttribute('data-text');
@@ -244,7 +403,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
     
-    document.querySelector('.close-panel-btn').addEventListener('click', () => panel.classList.remove('open'));
+    document.getElementById('panelClose').addEventListener('click', () => panel.classList.remove('open'));
 
     const fpsCounter = document.getElementById('fpsCounter');
     let lastCalledTime; 
@@ -401,27 +560,12 @@ document.addEventListener("DOMContentLoaded", () => {
     animateCanvas(); 
     window.addEventListener('resize', initCanvas);
 
-
     const emailLink = document.getElementById('email-link');
+    emailLink.addEventListener('mouseover', () => { emailLink.textContent = 'axocapi@gmail.com'; });
+    emailLink.addEventListener('mouseout', () => { emailLink.textContent = 'Email'; });
 
-
-emailLink.addEventListener('mouseover', () => {
-    emailLink.textContent = 'axocapi@gmail.com';
-});
-
-emailLink.addEventListener('mouseout', () => {
-    emailLink.textContent = 'Email';
-});
-
-const discordLink = document.getElementById('discord-link');
-
-
-discordLink.addEventListener('mouseover', () => {
-    discordLink.textContent = 'capitain_axo'; 
-});
-
-
-discordLink.addEventListener('mouseout', () => {
-    discordLink.textContent = 'Discord';
+    const discordLink = document.getElementById('discord-link');
+    discordLink.addEventListener('mouseover', () => { discordLink.textContent = 'capitain_axo'; });
+    discordLink.addEventListener('mouseout', () => { discordLink.textContent = 'Discord'; });
 });
 });
