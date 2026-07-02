@@ -113,7 +113,6 @@ h1, h2 { font-family: 'Cinzel', serif; font-size: clamp(2.5rem, 6vw, 5.5rem); fo
 
 
 @media (max-width: 768px) {
-    
     .custom-cursor { display: none !important; }
     * { cursor: auto !important; }
 
