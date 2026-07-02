@@ -110,30 +110,3 @@ h1, h2 { font-family: 'Cinzel', serif; font-size: clamp(2.5rem, 6vw, 5.5rem); fo
 .perf-monitor span { color: var(--fps-color); font-weight: bold; }
 .setting-item { display: flex; align-items: center; justify-content: space-between; color: var(--text-muted); font-family: 'Inter', sans-serif; letter-spacing: 1px; }
 .setting-item input { accent-color: var(--text-main); width: 14px; height: 14px; }
-
-
-@media (max-width: 768px) {
-    .custom-cursor { display: none !important; }
-    * { cursor: auto !important; }
-
-    section { padding: 0 6%; }
-    h1, h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 20px; }
-    .description { max-width: 100%; font-size: 1rem; }
-
-    .project-list { margin-top: 20px; }
-    .project-item { padding: 25px 0; flex-direction: column; align-items: flex-start; gap: 12px; }
-    .project-item h3 { font-size: 1.3rem; }
-    .project-item:hover h3 { transform: none; }
-    .more-details-btn { align-self: flex-end; font-size: 0.75rem; }
-
-    .details-panel { width: 100%; padding: 70px 24px; }
-    .details-panel h4 { font-size: 1.6rem; }
-    .close-panel-btn { top: 30px; left: 24px; }
-
-    .nav-dots { right: 15px; gap: 15px; }
-    .settings-container { left: 15px; bottom: 20px; }
-    .settings-menu { width: 200px; bottom: 25px; }
-    
-    .contact-links { gap: 15px; flex-direction: column; margin-top: 30px; }
-    .contact-links a { padding: 5px 0; }
-}
