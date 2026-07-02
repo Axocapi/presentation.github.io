@@ -44,7 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let fakeProgress = { value: 0 };
     const progressTween = gsap.to(fakeProgress, {
         value: 99, duration: 4, ease: "power1.out",
-        onUpdate: () => { loaderPercent.innerText = `${Math.floor(fakeProgress.value)}%`; }
+        onUpdate: () => { 
+            if(loaderPercent) loaderPercent.innerText = `${Math.floor(fakeProgress.value)}%`; 
+        }
     });
 
     window.addEventListener('load', () => {
@@ -52,14 +54,16 @@ document.addEventListener("DOMContentLoaded", () => {
         progressTween.kill();
         gsap.to(fakeProgress, {
             value: 100, duration: 0.4, ease: "power2.out",
-            onUpdate: () => { loaderPercent.innerText = `100%`; },
+            onUpdate: () => { if(loaderPercent) loaderPercent.innerText = `100%`; },
             onComplete: () => {
-                gsap.to(loaderStatus, { opacity: 0, y: 10, duration: 0.3, delay: 0.2 });
+                if(loaderStatus) gsap.to(loaderStatus, { opacity: 0, y: 10, duration: 0.3, delay: 0.2 });
             }
         });
     });
 
     function runLoaderLoop() {
+        if(!loaderText) return;
+
         if (isSiteLoaded && letterIndex === 0) {
             triggerFinalSignature();
             return;
@@ -78,16 +82,21 @@ document.addEventListener("DOMContentLoaded", () => {
           .to(loaderText, { opacity: 0, scale: 0.8, duration: 0.3, ease: "power2.in", delay: 0.3, onStart: playTicSound });
     }
 
-    gsap.set(loaderText, { opacity: 0 });
-    runLoaderLoop();
+    if(loaderText) {
+        gsap.set(loaderText, { opacity: 0 });
+        runLoaderLoop();
+    }
 
     function triggerFinalSignature() {
+        if(!loaderText) return;
         const finalTl = gsap.timeline({
             onComplete: () => {
-                gsap.to(preloader, { 
-                    opacity: 0, duration: 0.8, ease: "power2.inOut",
-                    onComplete: () => { preloader.remove(); animatePage(0); } 
-                });
+                if(preloader) {
+                    gsap.to(preloader, { 
+                        opacity: 0, duration: 0.8, ease: "power2.inOut",
+                        onComplete: () => { preloader.remove(); animatePage(0); } 
+                    });
+                }
             }
         });
 
@@ -97,27 +106,29 @@ document.addEventListener("DOMContentLoaded", () => {
                .to(loaderText, { opacity: 0, scale: 1.3, duration: 0.5, ease: "power2.in", delay: 0.5 });
     }
 
+   
     const settingsContainer = document.getElementById('settingsContainer');
     const settingsToggle = document.getElementById('settingsToggle');
     let isBlurEnabled = true; 
     let isCanvasEnabled = true; 
     let isAnimEnabled = true;
 
-    settingsToggle.addEventListener('click', (e) => { 
+    settingsToggle?.addEventListener('click', (e) => { 
         e.stopPropagation(); 
-        settingsContainer.classList.toggle('open'); 
+        settingsContainer?.classList.toggle('open'); 
     });
-    document.addEventListener('click', () => settingsContainer.classList.remove('open'));
-    settingsContainer.querySelector('.settings-menu').addEventListener('click', (e) => e.stopPropagation());
+    
+    document.addEventListener('click', () => settingsContainer?.classList.remove('open'));
+    settingsContainer?.querySelector('.settings-menu')?.addEventListener('click', (e) => e.stopPropagation());
 
-    document.getElementById('toggleTheme').addEventListener('change', (e) => {
+    document.getElementById('toggleTheme')?.addEventListener('change', (e) => {
         if (e.target.checked) document.documentElement.setAttribute('data-theme', 'light');
         else document.documentElement.removeAttribute('data-theme');
     });
     
-    document.getElementById('toggleBlur').addEventListener('change', (e) => { isBlurEnabled = e.target.checked; });
-    document.getElementById('toggleCanvas').addEventListener('change', (e) => { isCanvasEnabled = e.target.checked; });
-    document.getElementById('toggleAnim').addEventListener('change', (e) => { 
+    document.getElementById('toggleBlur')?.addEventListener('change', (e) => { isBlurEnabled = e.target.checked; });
+    document.getElementById('toggleCanvas')?.addEventListener('change', (e) => { isCanvasEnabled = e.target.checked; });
+    document.getElementById('toggleAnim')?.addEventListener('change', (e) => { 
         isAnimEnabled = e.target.checked;
         if(!isAnimEnabled) { 
             gsap.killTweensOf("*"); 
@@ -127,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    
+
     const translations = {
         fr: {
             heroSubtitle: "Hello I'm Ilhan.",
@@ -181,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
             labelBlur: "Blur Effect",
             labelCanvas: "Particles Bg",
             labelAnim: "Animations",
-            labelLang: "English version",
+            labelLang: "Version Française",
             panelClose: "← Close",
             panelDefaultTitle: "Journey Title",
             panelDefaultDate: "2026 - Future",
@@ -189,67 +200,66 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    document.getElementById('toggleLang').addEventListener('change', (e) => {
+    function safeUpdateText(id, text) {
+        const el = document.getElementById(id);
+        if (el) el.innerText = text;
+    }
+
+    function safeUpdateAttr(id, attr, value) {
+        const el = document.getElementById(id);
+        if (el) el.setAttribute(attr, value);
+    }
+
+    document.getElementById('toggleLang')?.addEventListener('change', (e) => {
         const lang = e.target.checked ? 'en' : 'fr';
         
-      
-        document.getElementById('hero-subtitle').innerText = translations[lang].heroSubtitle;
-        document.getElementById('hero-desc').innerText = translations[lang].heroDesc;
-        document.getElementById('projects-subtitle').innerText = translations[lang].projectsSubtitle;
-        document.getElementById('contact-subtitle').innerText = translations[lang].contactSubtitle;
-        document.getElementById('contact-desc').innerText = translations[lang].contactDesc;
-        document.getElementById('settingsToggle').innerText = translations[lang].settingsToggle;
-        document.getElementById('labelTheme').innerText = translations[lang].labelTheme;
-        document.getElementById('labelBlur').innerText = translations[lang].labelBlur;
-        document.getElementById('labelCanvas').innerText = translations[lang].labelCanvas;
-        document.getElementById('labelAnim').innerText = translations[lang].labelAnim;
-        document.getElementById('labelLang').innerText = translations[lang].labelLang;
-        document.getElementById('panelClose').innerText = translations[lang].panelClose;
+        safeUpdateText('hero-subtitle', translations[lang].heroSubtitle);
+        safeUpdateText('hero-desc', translations[lang].heroDesc);
+        safeUpdateText('projects-subtitle', translations[lang].projectsSubtitle);
+        safeUpdateText('contact-subtitle', translations[lang].contactSubtitle);
+        safeUpdateText('contact-desc', translations[lang].contactDesc);
+        safeUpdateText('settingsToggle', translations[lang].settingsToggle);
+        safeUpdateText('labelTheme', translations[lang].labelTheme);
+        safeUpdateText('labelBlur', translations[lang].labelBlur);
+        safeUpdateText('labelCanvas', translations[lang].labelCanvas);
+        safeUpdateText('labelAnim', translations[lang].labelAnim);
+        safeUpdateText('labelLang', translations[lang].labelLang);
+        safeUpdateText('panelClose', translations[lang].panelClose);
 
-        
-        const p1 = document.getElementById('proj-1');
-        p1.setAttribute('data-title', translations[lang].proj1Title);
-        p1.setAttribute('data-text', translations[lang].proj1Text);
-        p1.setAttribute('data-date', lang === 'fr' ? 'Bases' : 'Foundations');
-        document.getElementById('proj-1-h3').innerText = translations[lang].proj1H3;
+        safeUpdateAttr('proj-1', 'data-title', translations[lang].proj1Title);
+        safeUpdateAttr('proj-1', 'data-text', translations[lang].proj1Text);
+        safeUpdateAttr('proj-1', 'data-date', lang === 'fr' ? 'Bases' : 'Foundations');
+        safeUpdateText('proj-1-h3', translations[lang].proj1H3);
 
-        const p2 = document.getElementById('proj-2');
-        p2.setAttribute('data-title', translations[lang].proj2Title);
-        p2.setAttribute('data-text', translations[lang].proj2Text);
-        p2.setAttribute('data-date', lang === 'fr' ? 'Pratique' : 'Hands-on');
-        document.getElementById('proj-2-h3').innerText = translations[lang].proj2H3;
+        safeUpdateAttr('proj-2', 'data-title', translations[lang].proj2Title);
+        safeUpdateAttr('proj-2', 'data-text', translations[lang].proj2Text);
+        safeUpdateAttr('proj-2', 'data-date', lang === 'fr' ? 'Pratique' : 'Hands-on');
+        safeUpdateText('proj-2-h3', translations[lang].proj2H3);
 
-        const p3 = document.getElementById('proj-3');
-        p3.setAttribute('data-title', translations[lang].proj3Title);
-        p3.setAttribute('data-text', translations[lang].proj3Text);
-        p3.setAttribute('data-date', lang === 'fr' ? '2026 - Avenir' : '2026 - Future');
-        document.getElementById('proj-3-h3').innerText = translations[lang].proj3H3;
+        safeUpdateAttr('proj-3', 'data-title', translations[lang].proj3Title);
+        safeUpdateAttr('proj-3', 'data-text', translations[lang].proj3Text);
+        safeUpdateAttr('proj-3', 'data-date', lang === 'fr' ? '2026 - Avenir' : '2026 - Future');
+        safeUpdateText('proj-3-h3', translations[lang].proj3H3);
 
-       
-        if(panel.classList.contains('open') && activeProjectItem) {
-            document.getElementById('panelTitle').innerText = activeProjectItem.getAttribute('data-title');
-            document.getElementById('panelDate').innerText = activeProjectItem.getAttribute('data-date');
-            document.getElementById('panelText').innerText = activeProjectItem.getAttribute('data-text');
-        } else if(!panel.classList.contains('open')) {
-            document.getElementById('panelTitle').innerText = translations[lang].panelDefaultTitle;
-            document.getElementById('panelDate').innerText = translations[lang].panelDefaultDate;
-            document.getElementById('panelText').innerText = translations[lang].panelDefaultText;
+        if(panel?.classList.contains('open') && activeProjectItem) {
+            safeUpdateText('panelTitle', activeProjectItem.getAttribute('data-title'));
+            safeUpdateText('panelDate', activeProjectItem.getAttribute('data-date'));
+            safeUpdateText('panelText', activeProjectItem.getAttribute('data-text'));
+        } else {
+            safeUpdateText('panelTitle', translations[lang].panelDefaultTitle);
+            safeUpdateText('panelDate', translations[lang].panelDefaultDate);
+            safeUpdateText('panelText', translations[lang].panelDefaultText);
         }
 
-        
         const heroTitle = document.getElementById('hero-title');
-        heroTitle.innerText = translations[lang].heroTitle;
-        setupSplitText('hero-title');
+        if(heroTitle) { heroTitle.innerText = translations[lang].heroTitle; setupSplitText('hero-title'); }
 
         const projectsTitle = document.getElementById('projects-title');
-        projectsTitle.innerText = translations[lang].projectsTitle;
-        setupSplitText('projects-title');
+        if(projectsTitle) { projectsTitle.innerText = translations[lang].projectsTitle; setupSplitText('projects-title'); }
 
         const contactTitle = document.getElementById('contact-title');
-        contactTitle.innerText = translations[lang].contactTitle;
-        setupSplitText('contact-title');
+        if(contactTitle) { contactTitle.innerText = translations[lang].contactTitle; setupSplitText('contact-title'); }
 
-       
         gsap.set(".char", { opacity: 1, y: 0 });
     });
 
@@ -275,6 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let blendState = { pageProgress: 0 }; 
 
     function animatePage(index) {
+        if(!container) return;
         isAnimating = true;
         if (isBlurEnabled) container.classList.add('transitioning');
         const animDuration = isAnimEnabled ? 1.2 : 0;
@@ -308,22 +319,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-   
     window.addEventListener('wheel', (e) => {
         scrollVelocity += e.deltaY * 0.12;
         if (isAnimating || document.getElementById('preloader')) return; 
         if (e.deltaY > 35 && currentSection < totalSections - 1) { 
-            document.getElementById('detailsPanel').classList.remove('open'); 
+            document.getElementById('detailsPanel')?.classList.remove('open'); 
             currentSection++; 
             animatePage(currentSection); 
         } else if (e.deltaY < -35 && currentSection > 0) { 
-            document.getElementById('detailsPanel').classList.remove('open'); 
+            document.getElementById('detailsPanel')?.classList.remove('open'); 
             currentSection--; 
             animatePage(currentSection); 
         }
     });
 
-    
     let touchStartY = 0;
     let touchEndY = 0;
 
@@ -339,14 +348,14 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleSwipe() {
         if (isAnimating || document.getElementById('preloader')) return;
         const swipeDistance = touchStartY - touchEndY;
-        const threshold = 45; // Sensibilité du glissement de doigt en pixels
+        const threshold = 45; 
 
         if (swipeDistance > threshold && currentSection < totalSections - 1) {
-            document.getElementById('detailsPanel').classList.remove('open');
+            document.getElementById('detailsPanel')?.classList.remove('open');
             currentSection++;
             animatePage(currentSection);
         } else if (swipeDistance < -threshold && currentSection > 0) {
-            document.getElementById('detailsPanel').classList.remove('open');
+            document.getElementById('detailsPanel')?.classList.remove('open');
             currentSection--;
             animatePage(currentSection);
         }
@@ -362,6 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function updateCursor() {
+        if(!cursor) return;
         let targetX = mouseX, targetY = mouseY;
         if (activeMagnetic) {
             const rect = activeMagnetic.getBoundingClientRect();
@@ -378,8 +388,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let activeMagnetic = null;
     document.querySelectorAll('.magnetic-target').forEach(el => {
-        el.addEventListener('mouseenter', () => { activeMagnetic = el; cursor.classList.add('hovered'); });
-        el.addEventListener('mouseleave', () => { activeMagnetic = null; cursor.classList.remove('hovered'); gsap.to(el, { x: 0, y: 0, duration: 0.4 }); });
+        el.addEventListener('mouseenter', () => { activeMagnetic = el; cursor?.classList.add('hovered'); });
+        el.addEventListener('mouseleave', () => { activeMagnetic = null; cursor?.classList.remove('hovered'); gsap.to(el, { x: 0, y: 0, duration: 0.4 }); });
         el.addEventListener('mousemove', (e) => {
             const rect = el.getBoundingClientRect();
             gsap.to(el, { x: (e.clientX - (rect.left + rect.width / 2)) * 0.35, y: (e.clientY - (rect.top + rect.height / 2)) * 0.35, duration: 0.2 });
@@ -388,22 +398,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const panel = document.getElementById('detailsPanel');
     document.querySelectorAll('.project-item, .contact-links a, .settings-toggle, .settings-menu input, .magnetic-target, .close-panel-btn').forEach(item => {
-        item.addEventListener('mouseenter', () => { cursor.classList.add('hovered'); playTicSound(); });
-        item.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        item.addEventListener('mouseenter', () => { cursor?.classList.add('hovered'); playTicSound(); });
+        item.addEventListener('mouseleave', () => cursor?.classList.remove('hovered'));
     });
 
     let activeProjectItem = null;
     document.querySelectorAll('.project-item').forEach(item => {
         item.addEventListener('click', () => {
             activeProjectItem = item;
-            document.getElementById('panelTitle').innerText = item.getAttribute('data-title');
-            document.getElementById('panelDate').innerText = item.getAttribute('data-date');
-            document.getElementById('panelText').innerText = item.getAttribute('data-text');
-            panel.classList.add('open');
+            safeUpdateText('panelTitle', item.getAttribute('data-title'));
+            safeUpdateText('panelDate', item.getAttribute('data-date'));
+            safeUpdateText('panelText', item.getAttribute('data-text'));
+            panel?.classList.add('open');
         });
     });
     
-    document.getElementById('panelClose').addEventListener('click', () => panel.classList.remove('open'));
+    document.getElementById('panelClose')?.addEventListener('click', () => panel?.classList.remove('open'));
 
     const fpsCounter = document.getElementById('fpsCounter');
     let lastCalledTime; 
@@ -411,6 +421,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let frameCount = 0;
     
     function calculateFPS() {
+        if(!fpsCounter) return;
         if(!lastCalledTime) { lastCalledTime = performance.now(); return; }
         let delta = (performance.now() - lastCalledTime) / 1000; 
         lastCalledTime = performance.now();
@@ -420,10 +431,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const canvas = document.getElementById('experienceCanvas'); 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas ? canvas.getContext('2d') : null;
     let width, height;
     
     function initCanvas() {
+        if(!canvas || !ctx) return;
         width = window.innerWidth; 
         height = window.innerHeight;
         const dpr = window.devicePixelRatio || 1;
@@ -441,7 +453,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let i = 0; i < 115; i++) {
         let vxI = (Math.random() - 0.5) * 1.4, vyI = (Math.random() - 0.5) * 1.4;
         particles.push({ 
-            x: Math.random() * width, y: Math.random() * height, size: Math.random() * 1.5 + 0.6, 
+            x: Math.random() * (width || 1920), y: Math.random() * (height || 1080), size: Math.random() * 1.5 + 0.6, 
             baseVx: vxI, baseVy: vyI, vx: vxI, vy: vyI,
             phase: Math.random() * Math.PI * 2, angle: Math.random() * Math.PI * 2,
             speed: 1 + Math.random() * 1.5, radius: 130 + (i * 1.1)
@@ -449,11 +461,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     window.addEventListener('click', (e) => {
-        if(panel.classList.contains('open') || settingsContainer.contains(e.target) || document.getElementById('preloader')) return;
+        if(panel?.classList.contains('open') || settingsContainer?.contains(e.target) || document.getElementById('preloader')) return;
         shockwave = { x: e.clientX, y: e.clientY, radius: 0, maxRadius: 280, force: 35 };
     });
 
     function animateCanvas() {
+        if(!ctx) return;
         calculateFPS(); 
         ctx.clearRect(0, 0, width, height);
         
@@ -521,7 +534,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 renderY += (scrollVelocity * (p.size * 1.4));
 
-                ctx.fillStyle = particleColor; 
+                ctx.fillStyle = particleColor || 'rgba(255,255,255,0.6)'; 
                 ctx.beginPath();
                 const currentSpeed = Math.hypot(p.vx, p.vy + scrollVelocity);
                 
@@ -542,7 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         const distLines = Math.hypot(renderX - p2RenderX, renderY - p2RenderY);
                         
                         if (distLines < 110) {
-                            ctx.strokeStyle = `rgba(${lineColor}, ${(0.12 - distLines/110) * lineAlphaFactor})`; 
+                            ctx.strokeStyle = `rgba(${lineColor || '255,255,255'}, ${(0.12 - distLines/110) * lineAlphaFactor})`; 
                             ctx.lineWidth = 0.5;
                             ctx.beginPath(); 
                             ctx.moveTo(renderX, renderY); 
@@ -561,11 +574,10 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener('resize', initCanvas);
 
     const emailLink = document.getElementById('email-link');
-    emailLink.addEventListener('mouseover', () => { emailLink.textContent = 'axocapi@gmail.com'; });
-    emailLink.addEventListener('mouseout', () => { emailLink.textContent = 'Email'; });
+    emailLink?.addEventListener('mouseover', () => { emailLink.textContent = 'axocapi@gmail.com'; });
+    emailLink?.addEventListener('mouseout', () => { emailLink.textContent = 'Email'; });
 
     const discordLink = document.getElementById('discord-link');
-    discordLink.addEventListener('mouseover', () => { discordLink.textContent = 'capitain_axo'; });
-    discordLink.addEventListener('mouseout', () => { discordLink.textContent = 'Discord'; });
-});
+    discordLink?.addEventListener('mouseover', () => { discordLink.textContent = 'capitain_axo'; });
+    discordLink?.addEventListener('mouseout', () => { discordLink.textContent = 'Discord'; });
 });
